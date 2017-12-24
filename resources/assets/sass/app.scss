@@ -1,0 +1,129 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+$color_1: #f14444;
+$color_2: #444;
+$color_3: #fff;
+$border_color_1: #ccc;
+$border_color_2: #fff;
+$border_color_3: #f14444;
+
+nav.navbar-findcond {
+  background: #fff;
+  border-color: $border_color_1;
+  box-shadow: 0 0 2px 0 #ccc;
+  a {
+    color: $color_1;
+  }
+  ul.navbar-nav {
+    a {
+      color: $color_1;
+      border-style: solid;
+      border-width: 0 0 2px 0;
+      border-color: $border_color_2;
+      &:hover {
+        background: #fff;
+        border-color: $border_color_3;
+      }
+      &:visited {
+        background: #fff;
+      }
+      &:focus {
+        background: #fff;
+      }
+      &:active {
+        background: #fff;
+      }
+    }
+  }
+  ul.dropdown-menu {
+    >li {
+      >a {
+        color: $color_2;
+        &:hover {
+          background: #f14444;
+          color: $color_3;
+        }
+      }
+    }
+  }
+}
+button[type="submit"] {
+  border-radius: 2px;
+  color: $color_3;
+  background: #e74c3c;
+  padding: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  width: 10%;
+  transition: background .5s;
+  &:hover {
+    background: #2f3c4e;
+  }
+}
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
