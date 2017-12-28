@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('/', 'AdminController@users')->name('home');
+Route::get('/', 'AdminController@component')->name('home');

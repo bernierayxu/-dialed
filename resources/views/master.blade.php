@@ -14,7 +14,7 @@
         <nav class="navbar navbar-findcond">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ route('home') }}">Dialed Admin Pane</a>
+                    <a class="navbar-brand" href="{{ route('home',['component' =>'users']) }}">Dialed Admin Pane</a>
                 </div>
             </div>
         </nav>
@@ -22,28 +22,13 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar">
-                        <li class="active"><a href="#">User</a></li>
-                        <li><a href="#">User Type</a></li>
-                        <li><a href="#">Unit Of Measure</a></li>
-                        <li><a href="#">Style Type</a></li>
-                        <li><a href="#">Style Location</a></li>
-                        <li><a href="#">Size</a></li>
-                        <li><a href="#">Sale Person Type</a></li>
-                        <li><a href="#">Sale Person</a></li>
-                        <li><a href="#">Price</a></li>
-                        <li><a href="#">Price Type</a></li>
-                        <li><a href="#">Price Step</a></li>
-                        <li><a href="#">Price Option</a></li>
-                        <li><a href="#">Organization</a></li>
-                        <li><a href="#">Organization Type</a></li>
-                        <li><a href="#">Length</a></li>
-                        <li><a href="#">Currency</a></li>
-                        <li><a href="#">Contact Type</a></li>
-                        <li><a href="#">Component Type</a></li>
+                        @foreach($routes as $route => $name)
+                            <li class="{{ $route == $component ? 'active' : '' }}"><a href="{{ route('home', ['component' => $route]) }}">{{$name}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    @yield('content')
+                    <{{$component}}></{{$component}}>
                 </div>
             </div>
         </div>

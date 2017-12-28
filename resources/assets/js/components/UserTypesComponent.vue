@@ -6,9 +6,9 @@
                     <fieldset>
                         <legend class="text-center"><span v-if="model.id">Edit</span><span v-else>Add</span> {{ modelName }}</legend>
                         
-                        <input-component v-model="model.name" name="name" rules="required" placeholder="User Name"></input-component>
-                        <input-component v-model="model.email" name="email" rules="required|email" placeholder="Email"></input-component>
-                        <input-component v-model="model.password" name="password" rules="required" placeholder="Password" type="password"></input-component>
+                        <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
+                        <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
+                        <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
                         
                         <div class="form-group">
                             <div class="col-md-12 text-right">
@@ -38,16 +38,17 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Organization</th>
+                            <th>Code</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="model in models">
                             <td>{{model.id}}</td>
+                            <td>{{model.organizations.code}}</td>
+                            <td>{{model.code}}</td>
                             <td>{{model.name}}</td>
-                            <td>{{model.email}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
                                 <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
@@ -77,19 +78,23 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'User',
-                apiUrl: 'api/users',
+                modelName: 'User Type',
+                apiUrl: 'api/user-types',
                 params: {
-                    page: 1
+                    page: 1,
+                    relations: ['organizations']
                 },
                 //no need to mutate the following
                 models: [],
                 model: {},
                 pageCount: 1,
                 isEditing: false,
+                organizations: [],
             };
         },
-        created() {},
+        created() {
+            this.fetchOrganizations();
+        },
         methods: {
         },
     }

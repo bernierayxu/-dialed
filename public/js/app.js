@@ -11813,6 +11813,8 @@ Vue.component('inputComponent', __webpack_require__(62));
 Vue.component('selectComponent', __webpack_require__(65));
 
 Vue.component('users', __webpack_require__(38));
+Vue.component('userTypes', __webpack_require__(68));
+
 Vue.component('paginate', __webpack_require__(42));
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_sweetalert2__["a" /* default */]);
@@ -43026,7 +43028,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43116,23 +43117,6 @@ var render = function() {
                         _vm.$set(_vm.model, "password", $$v)
                       },
                       expression: "model.password"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("select-component", {
-                    attrs: {
-                      attr: "email",
-                      options: _vm.models,
-                      name: "test",
-                      rules: "required",
-                      placeholder: "test"
-                    },
-                    model: {
-                      value: _vm.model.type,
-                      callback: function($$v) {
-                        _vm.$set(_vm.model, "type", $$v)
-                      },
-                      expression: "model.type"
                     }
                   }),
                   _vm._v(" "),
@@ -54035,6 +54019,15 @@ var index_esm = {
         },
         reset: function reset() {
             this.model = {};
+        },
+        fetchOrganizations: function fetchOrganizations() {
+            var _this4 = this;
+
+            axios.get('api/organizations', { params: { 'withoutPagination': true } }).then(function (_ref6) {
+                var data = _ref6.data;
+
+                _this4.organizations = data;
+            });
         }
     }
 });
@@ -54437,6 +54430,393 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-c2557dcc", module.exports)
+  }
+}
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(39)
+/* script */
+var __vue_script__ = __webpack_require__(69)
+/* template */
+var __vue_template__ = __webpack_require__(70)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/UserTypesComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-08c237b4", Component.options)
+  } else {
+    hotAPI.reload("data-v-08c237b4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_baseMixin_js__ = __webpack_require__(61);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_baseMixin_js__["a" /* default */]],
+    data: function data() {
+        return {
+            modelName: 'User Type',
+            apiUrl: 'api/user-types',
+            params: {
+                page: 1,
+                relations: ['organizations']
+            },
+            //no need to mutate the following
+            models: [],
+            model: {},
+            pageCount: 1,
+            isEditing: false,
+            organizations: []
+        };
+    },
+    created: function created() {
+        this.fetchOrganizations();
+    },
+
+    methods: {}
+});
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.isEditing
+      ? _c("div", [
+          _c("div", { staticClass: "well well-sm" }, [
+            _c("div", { staticClass: "form-horizontal" }, [
+              _c(
+                "fieldset",
+                [
+                  _c("legend", { staticClass: "text-center" }, [
+                    _vm.model.id
+                      ? _c("span", [_vm._v("Edit")])
+                      : _c("span", [_vm._v("Add")]),
+                    _vm._v(" " + _vm._s(_vm.modelName))
+                  ]),
+                  _vm._v(" "),
+                  _c("input-component", {
+                    attrs: {
+                      name: "code",
+                      rules: "required",
+                      placeholder: "Code"
+                    },
+                    model: {
+                      value: _vm.model.code,
+                      callback: function($$v) {
+                        _vm.$set(_vm.model, "code", $$v)
+                      },
+                      expression: "model.code"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("input-component", {
+                    attrs: {
+                      name: "name",
+                      rules: "required",
+                      placeholder: "Name"
+                    },
+                    model: {
+                      value: _vm.model.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.model, "name", $$v)
+                      },
+                      expression: "model.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("select-component", {
+                    attrs: {
+                      attr: "code",
+                      options: _vm.organizations,
+                      name: "organization",
+                      rules: "required",
+                      placeholder: "Organization"
+                    },
+                    model: {
+                      value: _vm.model.organization_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.model, "organization_id", $$v)
+                      },
+                      expression: "model.organization_id"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "col-md-12 text-right" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          on: {
+                            click: function($event) {
+                              _vm.save()
+                            }
+                          }
+                        },
+                        [_vm._v("Submit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn",
+                          on: {
+                            click: function($event) {
+                              _vm.hideForm()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      )
+                    ])
+                  ])
+                ],
+                1
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.isEditing
+      ? _c("div", [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("h2", { staticClass: "sub-header" }, [
+                _vm._v(_vm._s(_vm.modelName) + " List")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-2" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  staticStyle: { "margin-top": "19px" },
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.showForm()
+                    }
+                  }
+                },
+                [_vm._v("Add")]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-responsive" }, [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.models, function(model) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(model.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(model.organizations.code))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(model.code))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(model.name))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.showForm(model)
+                            }
+                          }
+                        },
+                        [_vm._v("Edit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.warn(model.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "text-center" },
+            [
+              _c("paginate", {
+                attrs: {
+                  "page-count": _vm.pageCount,
+                  "click-handler": _vm.fetch,
+                  "prev-text": "Prev",
+                  "next-text": "Next",
+                  "container-class": "pagination"
+                }
+              })
+            ],
+            1
+          )
+        ])
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Organization")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Code")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-08c237b4", module.exports)
   }
 }
 

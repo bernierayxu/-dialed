@@ -19,6 +19,8 @@ Vue.component('selectComponent', require('./components/base/SelectComponent.vue'
 
 
 Vue.component('users', require('./components/UsersComponent.vue'));
+Vue.component('userTypes', require('./components/UserTypesComponent.vue'));
+
 Vue.component('paginate', require('vuejs-paginate'));
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);

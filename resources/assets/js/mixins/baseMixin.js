@@ -61,5 +61,12 @@ export default {
             this.model = {};
         },
 
+        fetchOrganizations() {
+            axios.get('api/organizations', {params: {'withoutPagination': true}})
+                .then(({data}) => {
+                    this.organizations = data;
+                });
+        },
+
     }
 };

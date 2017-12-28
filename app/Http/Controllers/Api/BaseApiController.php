@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Models\BaseModel;
 use Illuminate\Http\Request;
+use Config;
 use App\Http\Controllers\Controller;
 
 class BaseApiController extends Controller
@@ -22,7 +23,12 @@ class BaseApiController extends Controller
                 $model->with($relation);
             }
         }
-		return $model->orderBy('created_at', 'desc')->paginate(20);
+
+        if( byBoolean($params, 'withoutPagination') ) {
+            return $model->get();
+        } else {
+            return $model->orderBy('created_at', 'desc')->paginate( byInt($params, 'count') ? byInt($params, 'count') : Config::get('const.count') ); 
+        }
 	}
 
 	public function store(Request $request) {
