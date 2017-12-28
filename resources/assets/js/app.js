@@ -14,6 +14,9 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+Vue.component('inputComponent', require('./components/base/InputComponent.vue'));
+Vue.component('selectComponent', require('./components/base/SelectComponent.vue'));
+
 
 Vue.component('users', require('./components/UsersComponent.vue'));
 Vue.component('paginate', require('vuejs-paginate'));
@@ -24,7 +27,6 @@ import Notifications from 'vue-notification';
 Vue.use(Notifications);
 
 import VeeValidate from 'vee-validate';
-
 Vue.use(VeeValidate);
 
 const app = new Vue({
