@@ -15,7 +15,7 @@ class CreateStyleTypesTable extends Migration
     {
         Schema::create('style_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('organzation_id')->unsigned();
+            $table->integer('organization_id')->unsigned();
             $table->string('code', 10)->unique();
             $table->string('name');
             $table->string('c_name');

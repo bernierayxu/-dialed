@@ -59,4 +59,4 @@ ID  PRICE_ID    CODE        NAME                UNIT_COST       PRICE_TYPE      
 7   3           PHOTO       Include Photo       30.00           3 (LINE)        0 (FALSE)   13
 8   3           TEAM_BULK   Team Pack Bulk      .75             5 (ORDER_UNIT)  0 (FALSE)   20
 9   3           PROCESS     Order Processing    25.00           4 (ORDER)       0 (FALSE)   30
-
+*/

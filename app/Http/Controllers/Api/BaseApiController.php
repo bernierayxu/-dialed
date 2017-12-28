@@ -13,7 +13,16 @@ class BaseApiController extends Controller
 	}
 
 	public function index(Request $request) {
-		return ($this->model)::orderBy('created_at', 'desc')->paginate(20);
+		$params = $request->all();
+
+		$model = ($this->model)::whereRaw('1=1');
+
+		foreach( byArray($params, 'relations') as $relation) {
+            if($relation) {
+                $model->with($relation);
+            }
+        }
+		return $model->orderBy('created_at', 'desc')->paginate(20);
 	}
 
 	public function store(Request $request) {

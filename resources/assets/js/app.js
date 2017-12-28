@@ -23,6 +23,9 @@ Vue.use(VueSweetalert2);
 import Notifications from 'vue-notification';
 Vue.use(Notifications);
 
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
 
 const app = new Vue({
     el: '#app'

@@ -1,32 +1,36 @@
 <template>
     <div>
         <div v-if="isEditing">
-            <div class="well well-sm" id="user-form">
+            <div class="well well-sm">
                 <div class="form-horizontal">
                     <fieldset>
-                        <legend class="text-center"><span v-if="user.id">Edit</span><span v-else>Add</span> User</legend>
+                        <legend class="text-center"><span v-if="model.id">Edit</span><span v-else>Add</span> {{ modelName }}</legend>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="name">Name</label>
-                            <div class="col-md-9" :class="{'has-error': errors.name}">
+                            <div class="col-md-9" :class="{'has-error': errors.has('name')}">
                                 <input id="name"
-                                       v-model="user.name"
+                                       name="name"
+                                       v-validate.initial="'required'"
+                                       v-model="model.name"
                                        type="text"
                                        placeholder="User name"
                                        class="form-control">
-                                <span v-if="errors.name" class="help-block text-danger">{{ errors.name[0] }}</span>
+                                <span v-show="errors.has('name')" class="help-block text-danger">{{ errors.first('name') }}</span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" for="email">E-mail</label>
-                            <div class="col-md-9" :class="{'has-error': errors.email}">
+                            <div class="col-md-9" :class="{'has-error': errors.has('email')}">
                                 <input id="email"
-                                       v-model="user.email"
+                                       name="email"
+                                       v-validate.initial="'required|email'"
+                                       v-model="model.email"
                                        type="text"
                                        placeholder="User email"
                                        class="form-control">
-                                <span v-if="errors.email" class="help-block text-danger">{{ errors.email[0] }}</span>
+                                <span v-show="errors.has('email')" class="help-block text-danger">{{ errors.first('email') }}</span>
                             </div>
                         </div>
 
@@ -47,7 +51,7 @@
         <div v-if="!isEditing">
             <div class="row" >
                 <div class="col-sm-10">
-                    <h2 class="sub-header">User List</h2>
+                    <h2 class="sub-header">{{ modelName }} List</h2>
                 </div>
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-success" style="margin-top:19px" @click="showForm()">Add</button>
@@ -65,13 +69,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in users">
-                            <td>{{user.id}}</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
+                        <tr v-for="model in models">
+                            <td>{{model.id}}</td>
+                            <td>{{model.name}}</td>
+                            <td>{{model.email}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" @click="showForm(user)">Edit</button>
-                                <button type="button" class="btn btn-danger" @click="warn(user.id)">Delete</button>
+                                <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
+                                <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -93,20 +97,18 @@
 </template>
 
 <script>
+    import baseMixin from '../mixins/baseMixin.js';
     export default {
-
+        mixins: [ baseMixin ],
         data() {
             return {
-                users: [],
+                modelName: 'User',
+                apiUrl: 'api/users',
+                models: [],
+                model: {},
                 pageCount: 1,
-                endpoint: 'api/users?page=',
                 page: 1,
-                user: {
-                    name: "",
-                    email: "",
-                },
                 isEditing: false,
-                errors: {},
             };
         },
 
@@ -118,9 +120,9 @@
             fetch(page = 1) {
                 //used for refreshing
                 this.page = page;
-                axios.get(this.endpoint + page)
+                axios.get(this.apiUrl + '?page=' + page)
                     .then(({data}) => {
-                        this.users = data.data;
+                        this.models = data.data;
                         this.pageCount = data.last_page;
                     });
             },
@@ -132,7 +134,7 @@
                     showCancelButton: true,
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete('api/users/'+id)
+                        axios.delete(this.apiUrl + '/' + id)
                             .then(({data}) => this.reload())
                             .catch(({response}) => this.notify(response));
                     } 
@@ -140,9 +142,9 @@
 
             },
 
-            showForm(user = {}) {
+            showForm(model = {}) {
                 this.isEditing = true;
-                this.user = user;
+                this.model = model;
             },
 
             hideForm() {
@@ -150,15 +152,10 @@
             },
 
             save() {
-                axios.post('api/users', this.user)
+                axios.post(this.apiUrl, this.model)
                     .then(({data}) => this.reload())
                     .catch(({response}) => this.notify(response));
             },
-
-            setErrors(response) {
-                this.errors = response.data.errors;
-            },
-
 
             reload() {
                 this.isEditing = false;
@@ -173,8 +170,7 @@
             },
 
             reset() {
-                this.errors = [];
-                this.user = {};
+                this.model = {};
             },
 
         }
