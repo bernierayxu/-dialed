@@ -24,7 +24,7 @@ export default {
                 if (result.value) {
                     axios.delete(this.apiUrl + '/' + id)
                         .then(({data}) => this.reload())
-                        .catch(({response}) => this.notify(response));
+                        .catch(({response}) => this.notify(response, 'error'));
                 } 
             });
 
@@ -40,9 +40,20 @@ export default {
         },
 
         save() {
-            axios.post(this.apiUrl, this.model)
-                .then(({data}) => this.reload())
-                .catch(({response}) => this.notify(response));
+            console.log(this.$validator);
+            this.$validator.validateAll().then((result) => {
+                alert(result);
+                if (result) {
+                    // eslint-disable-next-line
+                    axios.post(this.apiUrl, this.model)
+                        .then(({data}) => this.reload())
+                        .catch(({response}) => this.notify(response.data.message, 'error'));
+                    return;
+                }
+
+                alert('Please correct errors!');
+            });
+
         },
 
         reload() {
@@ -51,9 +62,10 @@ export default {
             this.reset();
             this.notify('Success');
         },
-        notify(message = '') {
+        notify(message = '', type = 'info') {
             this.$notify({
                 title: message,
+                type: type,
             });                
         },
 

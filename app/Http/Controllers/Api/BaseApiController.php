@@ -11,6 +11,7 @@ class BaseApiController extends Controller
 	public function __construct(Model $model)
 	{
 	    $this->model = $model;
+	    $this->unique = '';
 	}
 
 	public function index(Request $request) {
@@ -32,14 +33,19 @@ class BaseApiController extends Controller
 	}
 
 	public function store(Request $request) {
-		$user = $this->model;
+		$model = $this->model;
 		if($request->id) {
-			$user = ($this->model)::find($request->id);
-			if(!$user) {
+			$model = ($this->model)::find($request->id);
+			if(!$model) {
 				error(last(explode('\\', get_class($this->model))) . ' Not Found');
 			}
+		} else {
+			if($this->unique 
+				&& ($this->model)::where($this->unique, byString($request->all(), $this->unique))->first()) {
+				error('Duplicate ' . $this->unique);
+			}
 		}
-		$user->selfCreate($request->all())->save();
+		$model->selfCreate($request->all())->save();
 		return 'Success';
 	}
 

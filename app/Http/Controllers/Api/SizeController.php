@@ -10,5 +10,6 @@ class SizeController extends BaseApiController
 	public function __construct(Model $model)
 	{
 	    $this->model = $model;
+	    $this->unique = 'code';
 	}
 }

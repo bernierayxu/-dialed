@@ -10,5 +10,6 @@ class PriceStepController extends BaseApiController
 	public function __construct(Model $model)
 	{
 	    $this->model = $model;
+	    $this->unique = 'min_quantity';
 	}
 }

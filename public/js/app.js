@@ -53979,7 +53979,7 @@ var index_esm = {
                         return _this2.reload();
                     }).catch(function (_ref3) {
                         var response = _ref3.response;
-                        return _this2.notify(response);
+                        return _this2.notify(response, 'error');
                     });
                 }
             });
@@ -53996,12 +53996,22 @@ var index_esm = {
         save: function save() {
             var _this3 = this;
 
-            axios.post(this.apiUrl, this.model).then(function (_ref4) {
-                var data = _ref4.data;
-                return _this3.reload();
-            }).catch(function (_ref5) {
-                var response = _ref5.response;
-                return _this3.notify(response);
+            console.log(this.$validator);
+            this.$validator.validateAll().then(function (result) {
+                alert(result);
+                if (result) {
+                    // eslint-disable-next-line
+                    axios.post(_this3.apiUrl, _this3.model).then(function (_ref4) {
+                        var data = _ref4.data;
+                        return _this3.reload();
+                    }).catch(function (_ref5) {
+                        var response = _ref5.response;
+                        return _this3.notify(response.data.message, 'error');
+                    });
+                    return;
+                }
+
+                alert('Please correct errors!');
             });
         },
         reload: function reload() {
@@ -54012,9 +54022,11 @@ var index_esm = {
         },
         notify: function notify() {
             var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+            var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'info';
 
             this.$notify({
-                title: message
+                title: message,
+                type: type
             });
         },
         reset: function reset() {
