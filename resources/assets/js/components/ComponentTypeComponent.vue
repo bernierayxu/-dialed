@@ -8,6 +8,7 @@
                         
                         <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
                         <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
+                        <input-component v-model="model.c_name" name="c_name" rules="required" placeholder="Cname"></input-component>
                         <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
                         
                         <div class="form-group">
@@ -41,6 +42,7 @@
                             <th>Organization</th>
                             <th>Code</th>
                             <th>Name</th>
+                            <th>Cname</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -50,6 +52,7 @@
                             <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
                             <td>{{model.code}}</td>
                             <td>{{model.name}}</td>
+                            <td>{{model.c_name}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
                                 <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
@@ -79,8 +82,8 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'User Type',
-                apiUrl: 'api/user-types',
+                modelName: 'Component Type',
+                apiUrl: 'api/component-types',
                 params: {
                     page: 1,
                     relations: ['organizations']

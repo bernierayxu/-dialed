@@ -6,9 +6,13 @@
                     <fieldset>
                         <legend class="text-center"><span v-if="model.id">Edit</span><span v-else>Add</span> {{ modelName }}</legend>
                         
-                        <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
-                        <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
-                        <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
+                        <input-component v-model="model.min_quantity" name="min_quantity" rules="required|numeric" placeholder="Min Quantity"></input-component>
+                        <input-component v-model="model.max_quantity" name="max_quantity" rules="required|numeric" placeholder="Max Quantity"></input-component>
+                        <input-component v-model="model.price_group_std" name="price_group_std" rules="required|decimal:2" placeholder="Price Group Std"></input-component>
+                        <input-component v-model="model.price_group_alt1" name="price_group_alt1" rules="required|decimal:2" placeholder="Price Group Alt1"></input-component>
+                        <input-component v-model="model.price_group_alt2" name="price_group_alt2" rules="required|decimal:2" placeholder="Price Group Alt2"></input-component>
+                        
+                        <select-component v-model="model.price_id" attr="code" :options="prices" name="price" rules="required" placeholder="Price"></select-component>                                    
                         
                         <div class="form-group">
                             <div class="col-md-12 text-right">
@@ -38,7 +42,6 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Organization</th>
                             <th>Code</th>
                             <th>Name</th>
                             <th>Actions</th>
@@ -47,9 +50,12 @@
                     <tbody>
                         <tr v-for="model in models">
                             <td>{{model.id}}</td>
-                            <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
-                            <td>{{model.code}}</td>
-                            <td>{{model.name}}</td>
+                            <td><span v-if="model.prices">{{model.prices.code}}</span></td>
+                            <td>{{model.min_quantity}}</td>
+                            <td>{{model.max_quantity}}</td>
+                            <td>{{model.price_group_std}}</td>
+                            <td>{{model.price_group_alt1}}</td>
+                            <td>{{model.price_group_alt2}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
                                 <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
@@ -79,11 +85,11 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'User Type',
-                apiUrl: 'api/user-types',
+                modelName: 'Price Step',
+                apiUrl: 'api/price-steps',
                 params: {
                     page: 1,
-                    relations: ['organizations']
+                    relations: ['prices']
                 },
                 //no need to mutate the following
                 models: [],
@@ -93,7 +99,7 @@
             };
         },
         created() {
-            this.fetchOrganizations();
+            this.fetchPrices();
         },
         methods: {
         },

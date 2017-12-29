@@ -1,5 +1,25 @@
 // define a mixin object
 export default {
+    data() {
+        return {
+            bool: [
+                {
+                    id: "1",
+                    code: 'Yes'
+                },
+                {
+                    id: "0",
+                    code: 'No'
+                },
+            ],
+            prices: [],
+            organizations: [],
+            priceTypes: [],
+            currencys: [],
+            organizationTypes: [],
+            organizationTypes: [],
+        }
+    },
     created() {
         this.fetch();
     },
@@ -40,20 +60,21 @@ export default {
         },
 
         save() {
-            console.log(this.$validator);
-            this.$validator.validateAll().then((result) => {
-                alert(result);
-                if (result) {
-                    // eslint-disable-next-line
-                    axios.post(this.apiUrl, this.model)
-                        .then(({data}) => this.reload())
-                        .catch(({response}) => this.notify(response.data.message, 'error'));
-                    return;
-                }
+            let self = this;
+            let promises = [];
+            for (let child in this.$children) promises.push(this.$children[child].$validator.validateAll());
 
-                alert('Please correct errors!');
-            });
-
+            Promise.all(promises)
+                .then(function(results){
+                    let res = results.filter(function(res) {
+                        return !res;
+                    });
+                    if(res.length == 0) {
+                        axios.post(self.apiUrl, self.model)
+                            .then(({data}) => self.reload())
+                            .catch(({response}) => self.notify(response.data.message, 'error'));     
+                    }
+                })
         },
 
         reload() {
@@ -80,5 +101,30 @@ export default {
                 });
         },
 
+        fetchPrices() {
+            axios.get('api/prices', {params: {'withoutPagination': true}})
+                .then(({data}) => {
+                    this.prices = data;
+                });
+        },
+
+        fetchPriceTypes() {
+            axios.get('api/price-types', {params: {'withoutPagination': true}})
+                .then(({data}) => {
+                    this.priceTypes = data;
+                });
+        },
+        fetchCurrencys() {
+            axios.get('api/currencys', {params: {'withoutPagination': true}})
+                .then(({data}) => {
+                    this.currencys = data;
+                });
+        },
+        fetchOrganizationTypes() {
+            axios.get('api/organization-types', {params: {'withoutPagination': true}})
+                .then(({data}) => {
+                    this.organizationTypes = data;
+                });
+        },
     }
 };

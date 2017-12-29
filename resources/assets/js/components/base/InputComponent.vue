@@ -5,7 +5,7 @@
             <div class="col-md-9" :class="{'has-error': errors.has(name)}">
                 <input :id="name"
                        :name="name"
-                       v-validate.initial="rules"
+                       v-validate="rules"
                        v-model:value="internalValue"
                        :type="type"
                        class="form-control">

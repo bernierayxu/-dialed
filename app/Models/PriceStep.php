@@ -18,6 +18,8 @@ class PriceStep extends BaseModel
      *
      * @var array
      */
-
+    public function prices() {
+        return $this->belongsTo('App\Models\Price', 'price_id');
+    }
 
 }

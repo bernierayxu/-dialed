@@ -3,7 +3,7 @@
     	<div class="form-group">
             <label class="col-md-3 control-label" for="name">{{placeholder}}</label>
             <div class="col-md-9" :class="{'has-error': errors.has(name)}">
-				<select v-model="internalValue" class="form-control" :name="name" v-validate.initial="rules">
+				<select v-model="internalValue" class="form-control" :name="name" v-validate="rules">
 					<option disabled value="">Please select one</option>
 					<option v-for="option in options" v-bind:value="option.id">
 						{{ option[attr] }}

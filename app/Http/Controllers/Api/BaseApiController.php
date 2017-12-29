@@ -39,13 +39,15 @@ class BaseApiController extends Controller
 			if(!$model) {
 				error(last(explode('\\', get_class($this->model))) . ' Not Found');
 			}
+			$model->selfUpdate($request->all())->save();
 		} else {
 			if($this->unique 
 				&& ($this->model)::where($this->unique, byString($request->all(), $this->unique))->first()) {
 				error('Duplicate ' . $this->unique);
 			}
+			$model->selfCreate($request->all())->save();
 		}
-		$model->selfCreate($request->all())->save();
+		
 		return 'Success';
 	}
 

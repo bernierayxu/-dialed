@@ -73,6 +73,9 @@ function byBoolean($params, $attribute){
 			if( in_array($params[$attribute], ['true', 'yes', 'y', '1']) )
 				return true;
 		}
+		if( $params[$attribute] == 1 ) {
+			return true;
+		}
 		if( is_bool($params[$attribute]) ) {
 			return $params[$attribute];
 		}

@@ -8,7 +8,6 @@
                         
                         <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
                         <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
-                        <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
                         
                         <div class="form-group">
                             <div class="col-md-12 text-right">
@@ -38,7 +37,6 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Organization</th>
                             <th>Code</th>
                             <th>Name</th>
                             <th>Actions</th>
@@ -47,7 +45,6 @@
                     <tbody>
                         <tr v-for="model in models">
                             <td>{{model.id}}</td>
-                            <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
                             <td>{{model.code}}</td>
                             <td>{{model.name}}</td>
                             <td>
@@ -79,11 +76,10 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'User Type',
-                apiUrl: 'api/user-types',
+                modelName: 'Organization Type',
+                apiUrl: 'api/organization-types',
                 params: {
                     page: 1,
-                    relations: ['organizations']
                 },
                 //no need to mutate the following
                 models: [],
@@ -93,7 +89,6 @@
             };
         },
         created() {
-            this.fetchOrganizations();
         },
         methods: {
         },

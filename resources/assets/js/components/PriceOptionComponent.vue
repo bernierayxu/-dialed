@@ -8,7 +8,14 @@
                         
                         <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
                         <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
-                        <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
+                        
+                        <select-component v-model="model.price_id" attr="code" :options="prices" name="price" rules="required" placeholder="Price"></select-component>                                    
+                        <select-component v-model="model.price_type" attr="code" :options="priceTypes" name="priceTypes" rules="required" placeholder="Price Types"></select-component>                                    
+                        
+                        <input-component v-model="model.display_order" name="display_order" rules="required|numeric" placeholder="Display Order"></input-component>
+                        <input-component v-model="model.unit_cost" name="unit_cost" rules="required|decimal:2" placeholder="Unit Cost"></input-component>
+                        <select-component v-model="model.in_base" attr="code" :options="bool" name="in_base" rules="required" placeholder="Is In Base"></select-component>                                    
+                        
                         
                         <div class="form-group">
                             <div class="col-md-12 text-right">
@@ -38,18 +45,26 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Organization</th>
                             <th>Code</th>
                             <th>Name</th>
+                            <th>Price</th>
+                            <th>Price Type</th>
+                            <th>Display Order</th>
+                            <th>Unit Cost</th>
+                            <th>Is In Base</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="model in models">
                             <td>{{model.id}}</td>
-                            <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
                             <td>{{model.code}}</td>
                             <td>{{model.name}}</td>
+                            <td><span v-if="model.prices">{{model.prices.code}}</span></td>
+                            <td><span v-if="model.price_types">{{model.price_types.code}}</span></td>
+                            <td>{{model.display_order}}</td>
+                            <td>{{model.unit_cost}}</td>
+                            <td>{{model.in_base ? 'Yes' : 'No'}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
                                 <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
@@ -79,11 +94,11 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'User Type',
-                apiUrl: 'api/user-types',
+                modelName: 'Price Step',
+                apiUrl: 'api/price-steps',
                 params: {
                     page: 1,
-                    relations: ['organizations']
+                    relations: ['prices', 'price_types']
                 },
                 //no need to mutate the following
                 models: [],
@@ -93,7 +108,8 @@
             };
         },
         created() {
-            this.fetchOrganizations();
+            this.fetchPrices();
+            this.fetchPriceTypes();
         },
         methods: {
         },
