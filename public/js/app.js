@@ -57087,6 +57087,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57312,6 +57316,10 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(model.name))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(model.phone))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(model.email))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(model.display_order))]),
                     _vm._v(" "),
                     _c("td", [
@@ -57383,6 +57391,10 @@ var staticRenderFns = [
         _c("th", [_vm._v("Code")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Phone")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Email")]),
         _vm._v(" "),
         _c("th", [_vm._v("Display Order")]),
         _vm._v(" "),
@@ -57897,6 +57909,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -58194,7 +58210,15 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Code")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Name")]),
+        _c("th", [_vm._v("Min Quantity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Max Quantity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price Group Std")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price Group Alt1")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price Group Alt2")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])
@@ -58360,8 +58384,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_baseMixin_js__["a" /* default */]],
     data: function data() {
         return {
-            modelName: 'Price Step',
-            apiUrl: 'api/price-steps',
+            modelName: 'Price Option',
+            apiUrl: 'api/price-options',
             params: {
                 page: 1,
                 relations: ['prices', 'price_types']

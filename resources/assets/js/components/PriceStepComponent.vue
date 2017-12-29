@@ -43,7 +43,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Code</th>
-                            <th>Name</th>
+                            <th>Min Quantity</th>
+                            <th>Max Quantity</th>
+                            <th>Price Group Std</th>
+                            <th>Price Group Alt1</th>
+                            <th>Price Group Alt2</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

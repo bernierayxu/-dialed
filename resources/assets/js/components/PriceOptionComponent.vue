@@ -94,8 +94,8 @@
         mixins: [ baseMixin ],
         data() {
             return {
-                modelName: 'Price Step',
-                apiUrl: 'api/price-steps',
+                modelName: 'Price Option',
+                apiUrl: 'api/price-options',
                 params: {
                     page: 1,
                     relations: ['prices', 'price_types']

@@ -44,6 +44,8 @@
                             <th>Organization</th>
                             <th>Code</th>
                             <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
                             <th>Display Order</th>
                             <th>Actions</th>
                         </tr>
@@ -54,6 +56,8 @@
                             <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
                             <td>{{model.code}}</td>
                             <td>{{model.name}}</td>
+                            <td>{{model.phone}}</td>
+                            <td>{{model.email}}</td>
                             <td>{{model.display_order}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
