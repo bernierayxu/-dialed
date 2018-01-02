@@ -8,7 +8,7 @@
                         
                         <input-component v-model="model.code" name="code" rules="required" placeholder="Code"></input-component>
                         <input-component v-model="model.name" name="name" rules="required" placeholder="Name"></input-component>
-                        <input-component v-model="model.c_name" name="c_name" rules="required" placeholder="Cname"></input-component>
+                        <input-component v-model="model.c_name" name="c_name" rules="" placeholder="Translation"></input-component>
                         <select-component v-model="model.organization_id" attr="code" :options="organizations" name="organization" rules="required" placeholder="Organization"></select-component>                                    
                         
                         <div class="form-group">
@@ -34,43 +34,21 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Organization</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Cname</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="model in models">
-                            <td>{{model.id}}</td>
-                            <td><span v-if="model.organizations">{{model.organizations.code}}</span></td>
-                            <td>{{model.code}}</td>
-                            <td>{{model.name}}</td>
-                            <td>{{model.c_name}}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
-                                <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="text-center">
-                <paginate
-                        :page-count="pageCount"
-                        :click-handler="fetch"
-                        :prev-text="'Prev'"
-                        :next-text="'Next'"
-                        :container-class="'pagination'">
-                </paginate>
-            </div>
+            <vue-good-table
+              :columns="columns"
+              :rows="models"
+              :defaultSortBy="{field: 'created_at', type: 'desc'}"
+              :globalSearch="true"
+              :lineNumbers="true"
+              :paginate="true"
+              styleClass="table condensed table-bordered table-striped">
+              <template slot="table-row-after" slot-scope="props">
+                <td>
+                    <button type="button" class="btn btn-primary" @click="showForm(props.row)">Edit</button>
+                    <button type="button" class="btn btn-danger" @click="warn(props.row.id)">Delete</button>
+                </td>
+              </template>
+            </vue-good-table>
         </div>
 
     </div>
@@ -85,14 +63,33 @@
                 modelName: 'Component Type',
                 apiUrl: 'api/component-types',
                 params: {
-                    page: 1,
                     relations: ['organizations']
                 },
                 //no need to mutate the following
                 models: [],
                 model: {},
-                pageCount: 1,
                 isEditing: false,
+                columns: [
+                    {
+                      label: 'Code',
+                      field: 'code',
+                    },
+                    {
+                      label: 'Name',
+                      field: 'name',
+                    },
+                    {
+                      label: 'Translation',
+                      field: 'c_name',
+                    },
+                    {
+                      label: 'Organization',
+                      field: 'organizations_code',
+                    },
+                    {
+                      label: 'Actions'
+                    },
+                ]
             };
         },
         created() {

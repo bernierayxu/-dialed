@@ -12,6 +12,7 @@ export default {
                     code: 'No'
                 },
             ],
+            params: {},
             prices: [],
             organizations: [],
             priceTypes: [],
@@ -25,13 +26,27 @@ export default {
     },
 
     methods: {
-        fetch(page = 1) {
+        fetch() {
             //used for refreshing
-            this.page = page;
             axios.get(this.apiUrl, {params: this.params})
                 .then(({data}) => {
-                    this.models = data.data;
-                    this.pageCount = data.last_page;
+                    let params = this.params;
+                    let bools = ['size_specific', 'in_base', 'is_active'];
+                    data.forEach(function(model) {
+                        if(params.relations) {
+                            params.relations.forEach(function(relation) {
+                                model[relation + '_code'] = model[relation]? model[relation].code : "";
+                            })
+                        }
+                        bools.forEach(function(bool) {
+                            if(typeof model[bool] != 'undefined') {
+                                model[bool + '_bool'] = model[bool] ? 'Yes' : 'No';
+                            }
+                        })
+                        
+                    })
+
+                    this.models = data;
                 });
         },
 
@@ -79,7 +94,7 @@ export default {
 
         reload() {
             this.isEditing = false;
-            this.fetch(this.page);
+            this.fetch();
             this.reset();
             this.notify('Success');
         },
@@ -95,33 +110,33 @@ export default {
         },
 
         fetchOrganizations() {
-            axios.get('api/organizations', {params: {'withoutPagination': true}})
+            axios.get('api/organizations')
                 .then(({data}) => {
                     this.organizations = data;
                 });
         },
 
         fetchPrices() {
-            axios.get('api/prices', {params: {'withoutPagination': true}})
+            axios.get('api/prices')
                 .then(({data}) => {
                     this.prices = data;
                 });
         },
 
         fetchPriceTypes() {
-            axios.get('api/price-types', {params: {'withoutPagination': true}})
+            axios.get('api/price-types')
                 .then(({data}) => {
                     this.priceTypes = data;
                 });
         },
         fetchCurrencys() {
-            axios.get('api/currencys', {params: {'withoutPagination': true}})
+            axios.get('api/currencys')
                 .then(({data}) => {
                     this.currencys = data;
                 });
         },
         fetchOrganizationTypes() {
-            axios.get('api/organization-types', {params: {'withoutPagination': true}})
+            axios.get('api/organization-types')
                 .then(({data}) => {
                     this.organizationTypes = data;
                 });

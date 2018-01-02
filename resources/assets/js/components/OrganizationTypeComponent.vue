@@ -32,39 +32,21 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="model in models">
-                            <td>{{model.id}}</td>
-                            <td>{{model.code}}</td>
-                            <td>{{model.name}}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
-                                <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="text-center">
-                <paginate
-                        :page-count="pageCount"
-                        :click-handler="fetch"
-                        :prev-text="'Prev'"
-                        :next-text="'Next'"
-                        :container-class="'pagination'">
-                </paginate>
-            </div>
+            <vue-good-table
+              :columns="columns"
+              :rows="models"
+              :defaultSortBy="{field: 'created_at', type: 'desc'}"
+              :globalSearch="true"
+              :lineNumbers="true"
+              :paginate="true"
+              styleClass="table condensed table-bordered table-striped">
+              <template slot="table-row-after" slot-scope="props">
+                <td>
+                    <button type="button" class="btn btn-primary" @click="showForm(props.row)">Edit</button>
+                    <button type="button" class="btn btn-danger" @click="warn(props.row.id)">Delete</button>
+                </td>
+              </template>
+            </vue-good-table>
         </div>
 
     </div>
@@ -79,13 +61,24 @@
                 modelName: 'Organization Type',
                 apiUrl: 'api/organization-types',
                 params: {
-                    page: 1,
                 },
                 //no need to mutate the following
                 models: [],
                 model: {},
-                pageCount: 1,
                 isEditing: false,
+                columns: [
+                    {
+                      label: 'Code',
+                      field: 'code',
+                    },
+                    {
+                      label: 'Name',
+                      field: 'name',
+                    },
+                    {
+                      label: 'Actions'
+                    },
+                ]
             };
         },
         created() {

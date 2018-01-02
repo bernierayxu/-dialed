@@ -40,49 +40,21 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Price Type</th>
-                            <th>Display Order</th>
-                            <th>Unit Cost</th>
-                            <th>Is In Base</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="model in models">
-                            <td>{{model.id}}</td>
-                            <td>{{model.code}}</td>
-                            <td>{{model.name}}</td>
-                            <td><span v-if="model.prices">{{model.prices.code}}</span></td>
-                            <td><span v-if="model.price_types">{{model.price_types.code}}</span></td>
-                            <td>{{model.display_order}}</td>
-                            <td>{{model.unit_cost}}</td>
-                            <td>{{model.in_base ? 'Yes' : 'No'}}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
-                                <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="text-center">
-                <paginate
-                        :page-count="pageCount"
-                        :click-handler="fetch"
-                        :prev-text="'Prev'"
-                        :next-text="'Next'"
-                        :container-class="'pagination'">
-                </paginate>
-            </div>
+            <vue-good-table
+              :columns="columns"
+              :rows="models"
+              :defaultSortBy="{field: 'created_at', type: 'desc'}"
+              :globalSearch="true"
+              :lineNumbers="true"
+              :paginate="true"
+              styleClass="table condensed table-bordered table-striped">
+              <template slot="table-row-after" slot-scope="props">
+                <td>
+                    <button type="button" class="btn btn-primary" @click="showForm(props.row)">Edit</button>
+                    <button type="button" class="btn btn-danger" @click="warn(props.row.id)">Delete</button>
+                </td>
+              </template>
+            </vue-good-table>
         </div>
 
     </div>
@@ -97,14 +69,47 @@
                 modelName: 'Price Option',
                 apiUrl: 'api/price-options',
                 params: {
-                    page: 1,
                     relations: ['prices', 'price_types']
                 },
                 //no need to mutate the following
                 models: [],
                 model: {},
-                pageCount: 1,
                 isEditing: false,
+                columns: [
+                    {
+                      label: 'Code',
+                      field: 'code',
+                    },
+                    {
+                      label: 'Name',
+                      field: 'name',
+                    },
+                    {
+                      label: 'Price Code',
+                      field: 'prices_code',
+                    },
+                    {
+                      label: 'Price Type',
+                      field: 'price_types_code',
+                    },
+                    {
+                      label: 'Display Order',
+                      field: 'display_order',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Unit Cost',
+                      field: 'unit_cost',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Is In Base',
+                      field: 'in_base_bool',
+                    },
+                    {
+                      label: 'Actions'
+                    },
+                ]
             };
         },
         created() {

@@ -8,9 +8,9 @@
                         
                         <input-component v-model="model.min_quantity" name="min_quantity" rules="required|numeric" placeholder="Min Quantity"></input-component>
                         <input-component v-model="model.max_quantity" name="max_quantity" rules="required|numeric" placeholder="Max Quantity"></input-component>
-                        <input-component v-model="model.price_group_std" name="price_group_std" rules="required|decimal:2" placeholder="Price Group Std"></input-component>
-                        <input-component v-model="model.price_group_alt1" name="price_group_alt1" rules="required|decimal:2" placeholder="Price Group Alt1"></input-component>
-                        <input-component v-model="model.price_group_alt2" name="price_group_alt2" rules="required|decimal:2" placeholder="Price Group Alt2"></input-component>
+                        <input-component v-model="model.price_group_std" name="price_group_std" rules="decimal:2" placeholder="Price Group Std"></input-component>
+                        <input-component v-model="model.price_group_alt1" name="price_group_alt1" rules="decimal:2" placeholder="Price Group Alt1"></input-component>
+                        <input-component v-model="model.price_group_alt2" name="price_group_alt2" rules="decimal:2" placeholder="Price Group Alt2"></input-component>
                         
                         <select-component v-model="model.price_id" attr="code" :options="prices" name="price" rules="required" placeholder="Price"></select-component>                                    
                         
@@ -37,47 +37,21 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Code</th>
-                            <th>Min Quantity</th>
-                            <th>Max Quantity</th>
-                            <th>Price Group Std</th>
-                            <th>Price Group Alt1</th>
-                            <th>Price Group Alt2</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="model in models">
-                            <td>{{model.id}}</td>
-                            <td><span v-if="model.prices">{{model.prices.code}}</span></td>
-                            <td>{{model.min_quantity}}</td>
-                            <td>{{model.max_quantity}}</td>
-                            <td>{{model.price_group_std}}</td>
-                            <td>{{model.price_group_alt1}}</td>
-                            <td>{{model.price_group_alt2}}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" @click="showForm(model)">Edit</button>
-                                <button type="button" class="btn btn-danger" @click="warn(model.id)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="text-center">
-                <paginate
-                        :page-count="pageCount"
-                        :click-handler="fetch"
-                        :prev-text="'Prev'"
-                        :next-text="'Next'"
-                        :container-class="'pagination'">
-                </paginate>
-            </div>
+            <vue-good-table
+              :columns="columns"
+              :rows="models"
+              :defaultSortBy="{field: 'created_at', type: 'desc'}"
+              :globalSearch="true"
+              :lineNumbers="true"
+              :paginate="true"
+              styleClass="table condensed table-bordered table-striped">
+              <template slot="table-row-after" slot-scope="props">
+                <td>
+                    <button type="button" class="btn btn-primary" @click="showForm(props.row)">Edit</button>
+                    <button type="button" class="btn btn-danger" @click="warn(props.row.id)">Delete</button>
+                </td>
+              </template>
+            </vue-good-table>
         </div>
 
     </div>
@@ -92,14 +66,46 @@
                 modelName: 'Price Step',
                 apiUrl: 'api/price-steps',
                 params: {
-                    page: 1,
                     relations: ['prices']
                 },
                 //no need to mutate the following
                 models: [],
                 model: {},
-                pageCount: 1,
                 isEditing: false,
+                columns: [
+                    {
+                      label: 'Price Code',
+                      field: 'prices_code',
+                    },
+                    {
+                      label: 'Min Quantit',
+                      field: 'min_quantity',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Max Quantit',
+                      field: 'max_quantity',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Price Group Std',
+                      field: 'price_group_std',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Price Group Alt1',
+                      field: 'price_group_alt1',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Price Group Alt2',
+                      field: 'price_group_alt2',
+                      type: 'number'
+                    },
+                    {
+                      label: 'Actions'
+                    },
+                ]
             };
         },
         created() {

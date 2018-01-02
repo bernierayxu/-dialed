@@ -37,9 +37,12 @@ Vue.component('currencys', require('./components/CurrencyComponent.vue'));
 Vue.component('contactTypes', require('./components/ContactTypeComponent.vue'));
 Vue.component('componentTypes', require('./components/ComponentTypeComponent.vue'));
 
-Vue.component('paginate', require('vuejs-paginate'));
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
+
+
+import VueGoodTable from 'vue-good-table';
+Vue.use(VueGoodTable);
 
 import Notifications from 'vue-notification';
 Vue.use(Notifications);

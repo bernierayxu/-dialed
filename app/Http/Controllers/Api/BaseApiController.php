@@ -24,12 +24,9 @@ class BaseApiController extends Controller
                 $model->with($relation);
             }
         }
-
-        if( byBoolean($params, 'withoutPagination') ) {
-            return $model->get();
-        } else {
-            return $model->orderBy('created_at', 'desc')->paginate( byInt($params, 'count') ? byInt($params, 'count') : Config::get('const.count') ); 
-        }
+        
+        return $model->get();
+        
 	}
 
 	public function store(Request $request) {
