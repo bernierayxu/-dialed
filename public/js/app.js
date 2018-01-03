@@ -11845,7 +11845,35 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_notification___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_3_vee_validate__["a" /* default */]);
 
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+    methods: {
+        tests: function tests() {
+            this.sidebarCollapse = !this.sidebarCollapse;
+        }
+    },
+    data: function data() {
+        return {
+            sidebarCollapse: false
+        };
+    },
+
+    computed: {
+        sidebarClass: function sidebarClass() {
+            return {
+                'col-sm-3': !this.sidebarCollapse,
+                'col-md-2': !this.sidebarCollapse,
+                'sidebar-collapse': this.sidebarCollapse
+            };
+        },
+        contentClass: function contentClass() {
+            return {
+                'col-sm-9': !this.sidebarCollapse,
+                'col-sm-offset-3': !this.sidebarCollapse,
+                'col-md-10': !this.sidebarCollapse,
+                'col-md-offset-2': !this.sidebarCollapse
+            };
+        }
+    }
 });
 
 /***/ }),

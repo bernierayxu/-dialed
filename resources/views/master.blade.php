@@ -14,20 +14,23 @@
         <nav class="navbar navbar-findcond">
             <div class="container">
                 <div class="navbar-header">
+                    <a href="#" class="btn btn-link btn-sm navbar-brand" @click="tests()">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </a>
                     <a class="navbar-brand" href="{{ route('home',['component' =>'users']) }}">Dialed Admin Pane</a>
                 </div>
             </div>
         </nav>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
+                <div class="sidebar" v-bind:class="sidebarClass">
                     <ul class="nav nav-sidebar">
                         @foreach($routes as $route => $name)
                             <li class="{{ $route == $component ? 'active' : '' }}"><a href="{{ route('home', ['component' => $route]) }}">{{$name}}</a></li>
                         @endforeach
                     </ul>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="main" v-bind:class="contentClass">
                     <{{$component}}></{{$component}}>
                 </div>
             </div>

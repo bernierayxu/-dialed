@@ -51,5 +51,32 @@ import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    methods: {
+        tests() {
+            this.sidebarCollapse = !this.sidebarCollapse;
+        },
+    },
+    data() {
+    	return {
+    		sidebarCollapse: false
+    	}
+    },
+    computed: {
+    	sidebarClass: function() {
+    		return {
+    			'col-sm-3': !this.sidebarCollapse,
+    			'col-md-2': !this.sidebarCollapse,
+    			'sidebar-collapse': this.sidebarCollapse,
+    		}
+    	},
+    	contentClass: function() {
+    		return {
+    			'col-sm-9': !this.sidebarCollapse,
+    			'col-sm-offset-3': !this.sidebarCollapse,
+    			'col-md-10': !this.sidebarCollapse,
+    			'col-md-offset-2': !this.sidebarCollapse,
+    		}
+    	}
+    }
 });
