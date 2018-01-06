@@ -26,7 +26,7 @@
                 <div class="sidebar" v-bind:class="sidebarClass">
                     <ul class="nav nav-sidebar">
                         @foreach($routes as $route => $name)
-                            <li class="{{ $route == $component ? 'active' : '' }}">s<a href="{{ route('home', ['component' => $route]) }}">{{$name}}</a></li>
+                            <li class="{{ $route == $component ? 'active' : '' }}"><a href="{{ route('home', ['component' => $route]) }}">{{$name}}</a></li>
                         @endforeach
                     </ul>
                 </div>
