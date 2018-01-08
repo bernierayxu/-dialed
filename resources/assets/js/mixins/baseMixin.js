@@ -106,10 +106,10 @@ export default {
             this.isEditing = false;
             this.fetch();
             this.reset();
-            this.notify('Success');
+            this.notify({ data: {message: 'Success'}});
         },
         notify(response = {}, type = 'info') {
-            if(response.status != '200') {
+            if(response.status == 401) {
                 window.location = '/signin';
             } else {
                 this.$notify({
