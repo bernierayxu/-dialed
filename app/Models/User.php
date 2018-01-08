@@ -33,4 +33,10 @@ class User extends BaseModel implements AuthenticatableContract
         return $this;
     }
 
+    public function selfUpdate($params) {
+        parent::selfUpdate($params);
+        $this->password = Hash::make(byString($params, 'password'));
+        return $this;
+    }
+
 }
