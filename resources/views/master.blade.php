@@ -13,7 +13,7 @@
         <notifications></notifications>
         <nav class="navbar navbar-findcond">
             <div class="container">
-                <div class="navbar-header">
+                <div class="">
                     <a href="#" class="btn btn-link btn-sm navbar-brand" @click="tests()">
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                     </a>
