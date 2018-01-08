@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+// use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class User extends BaseModel
+class User extends BaseModel implements AuthenticatableContract
 {
 
+    use Authenticatable;
     public $string = ['name', 'email'];
 
     /**
@@ -26,7 +29,7 @@ class User extends BaseModel
 
     public function selfCreate($params) {
         parent::selfCreate($params);
-        $this->password = Hash::make($this->password);
+        $this->password = Hash::make(byString($params, 'password'));
         return $this;
     }
 

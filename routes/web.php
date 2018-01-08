@@ -11,4 +11,6 @@
 |
 */
 
+
+Route::get('/signin', 'AdminController@signin')->name('signin');
 Route::get('/', 'AdminController@component')->name('home');

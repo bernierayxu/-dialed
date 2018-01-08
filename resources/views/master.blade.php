@@ -19,6 +19,7 @@
                     </a>
                     <a class="navbar-brand" href="{{ route('home',['component' =>'users']) }}">Dialed Admin Pane</a>
                 </div>
+                <a class="navbar-brand pull-right" href="#" style="color: black" @click="signout()">Sign Out</a>
             </div>
         </nav>
         <div class="container-fluid">

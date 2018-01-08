@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -14,6 +16,7 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         //
+        TokenBlacklistedException::class
     ];
 
     /**
@@ -48,6 +51,24 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($request->ajax() || $request->wantsJson()) {
+
+            $status = 500;
+
+            if ($exception instanceof \App\Exceptions\CustomizedException) {
+                $status = 400;
+            } else if ($exception instanceof \App\Exceptions\RedirectException) {
+                $status = 401;
+            }
+
+            return response()->json(
+                ['message' => $exception->getMessage(), 
+                            'status' => $status], $status)
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+                ->header('Access-Control-Allow-Origin', '*')
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        }
+
+        return parent::render($request, $e);
     }
 }

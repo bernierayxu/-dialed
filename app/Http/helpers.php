@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
 use App\Exceptions\CustomizedException;
-
+use App\Exceptions\RedirectException;
 
 // 用于接收web参数的，一般拿来查询，所以默认直接转化为Y-m-d
 function byDate($params, $attribute, $interval = 0, $returnCarbon = false, $format = 'Y-m-d'){
@@ -84,9 +84,13 @@ function byBoolean($params, $attribute){
 }
 
 
-function error($message) {
+function error($message, $type = '') {
+	if($type == 'redirect') {
+		throw new RedirectException($message);
+	}
 	throw new CustomizedException($message);
 }
+
 
 // iterate over date
 function getNextDay(Carbon $startedAt, Carbon $endedAt) {

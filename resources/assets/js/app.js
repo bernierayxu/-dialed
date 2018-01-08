@@ -50,8 +50,11 @@ Vue.use(Notifications);
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
 
+import signinMixin from './mixins/signinMixin.js';
+
 const app = new Vue({
     el: '#app',
+    mixins: [ signinMixin ],
     methods: {
         tests() {
             this.sidebarCollapse = !this.sidebarCollapse;
@@ -59,7 +62,11 @@ const app = new Vue({
     },
     data() {
     	return {
-    		sidebarCollapse: false
+    		sidebarCollapse: false,
+            params: {
+                email: '',
+                password: '',
+            },
     	}
     },
     computed: {

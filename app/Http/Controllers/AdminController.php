@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class AdminController extends Controller
 {
     public function component(Request $request) {
@@ -28,6 +29,10 @@ class AdminController extends Controller
     		'contact-types' => 'Contact Type',
     		'component-types' => 'Component Type',
     	];
-    	return view( 'master' )->with(['component' => $component, 'routes' => $routes]);
+    	return view('master')->with(['component' => $component, 'routes' => $routes]);
+    }
+
+    public function signin(Request $request) {
+        return view('signin');
     }
 }

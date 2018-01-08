@@ -1,5 +1,8 @@
 // define a mixin object
+import signinMixin from './signinMixin.js';
+
 export default {
+    mixins: [ signinMixin ],
     data() {
         return {
             bool: [
@@ -18,17 +21,23 @@ export default {
             priceTypes: [],
             currencys: [],
             organizationTypes: [],
-            organizationTypes: [],
+            config: {}
         }
     },
     created() {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+        axios.defaults.headers.common['Accept'] = 'application/json';
+        // this.config.Authorization = 'Bearer ' + localStorage.getItem('token');
+        // this.config.Accept = 'application/json';
+
         this.fetch();
+
     },
 
     methods: {
         fetch() {
             //used for refreshing
-            axios.get(this.apiUrl, {params: this.params})
+            axios.get(this.apiUrl, {params: this.params, headers: this.config})
                 .then(({data}) => {
                     let params = this.params;
                     let bools = ['size_specific', 'in_base', 'is_active'];
@@ -47,7 +56,8 @@ export default {
                     })
 
                     this.models = data;
-                });
+                })
+                .catch(({response}) => this.notify(response, 'error'));  
         },
 
         warn(id) {
@@ -87,7 +97,7 @@ export default {
                     if(res.length == 0) {
                         axios.post(self.apiUrl, self.model)
                             .then(({data}) => self.reload())
-                            .catch(({response}) => self.notify(response.data.message, 'error'));     
+                            .catch(({response}) => self.notify(response, 'error'));     
                     }
                 })
         },
@@ -98,11 +108,15 @@ export default {
             this.reset();
             this.notify('Success');
         },
-        notify(message = '', type = 'info') {
-            this.$notify({
-                title: message,
-                type: type,
-            });                
+        notify(response = {}, type = 'info') {
+            if(response.status != '200') {
+                window.location = '/signin';
+            } else {
+                this.$notify({
+                    title: response.data.message,
+                    type: type,
+                });                 
+            }
         },
 
         reset() {
@@ -113,33 +127,33 @@ export default {
             axios.get('api/organizations')
                 .then(({data}) => {
                     this.organizations = data;
-                });
+                }).catch(({response}) => this.notify(response, 'error'));  
         },
 
         fetchPrices() {
             axios.get('api/prices')
                 .then(({data}) => {
                     this.prices = data;
-                });
+                }).catch(({response}) => this.notify(response, 'error'));  
         },
 
         fetchPriceTypes() {
             axios.get('api/price-types')
                 .then(({data}) => {
                     this.priceTypes = data;
-                });
+                }).catch(({response}) => this.notify(response, 'error'));  
         },
         fetchCurrencys() {
             axios.get('api/currencys')
                 .then(({data}) => {
                     this.currencys = data;
-                });
+                }).catch(({response}) => this.notify(response, 'error'));  
         },
         fetchOrganizationTypes() {
             axios.get('api/organization-types')
                 .then(({data}) => {
                     this.organizationTypes = data;
-                });
+                }).catch(({response}) => this.notify(response, 'error'));  
         },
     }
 };
