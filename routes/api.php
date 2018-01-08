@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::post('/signin', 'Api\AdminController@signin');
 
-Route::group(['middleware' => 'jwt.auth'], function () {
+Route::group([], function () {
 
     Route::resource('users', 'Api\UserController')
         ->only(['index', 'store', 'destroy']);
