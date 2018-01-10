@@ -69,6 +69,6 @@ class Handler extends ExceptionHandler
                 ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         }
 
-        return parent::render($request, $e);
+        return parent::render($request, $exception);
     }
 }
