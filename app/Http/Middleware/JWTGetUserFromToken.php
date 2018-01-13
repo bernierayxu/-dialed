@@ -33,6 +33,11 @@ class JWTGetUserFromToken extends GetUserFromToken
         if (! $user) {
             error('Missing User', 'redirect');
         }
+        
+        if(!$user->user_types || $user->user_types->code != 'ADMIN') {
+            error('Permission Denied', 'redirect');
+        }
+
         // 如果发现user已经被blacklist了，那就invalidate这个token
         if ($user->deleted) {
             $this->auth->parseToken()->invalidate();

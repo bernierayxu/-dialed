@@ -22,9 +22,14 @@ class AdminController extends BaseController
         ];
 
         $user = User::where("email", $credentials['email'])->first();
+        // dd($user->user_types->toArray());
 
         if(!$user){
             error('Wrong Username Or Password', 'redirect');
+        }
+
+        if(!$user->user_types || $user->user_types->code != 'ADMIN') {
+            error('Permission Denied', 'redirect');
         }
 
         if(!Hash::check($credentials['password'], $user->password)) {
