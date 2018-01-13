@@ -21,6 +21,7 @@ export default {
             priceTypes: [],
             currencys: [],
             organizationTypes: [],
+            userTypes: [],
             config: {}
         }
     },
@@ -153,6 +154,12 @@ export default {
             axios.get('api/organization-types')
                 .then(({data}) => {
                     this.organizationTypes = data;
+                }).catch(({response}) => this.notify(response, 'error'));  
+        },
+        fetchUserTypes() {
+            axios.get('api/user-types')
+                .then(({data}) => {
+                    this.userTypes = data;
                 }).catch(({response}) => this.notify(response, 'error'));  
         },
     }

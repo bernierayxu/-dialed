@@ -14,6 +14,8 @@ class User extends BaseModel implements AuthenticatableContract
     use Authenticatable;
     public $string = ['name', 'email'];
 
+    public $int = ['user_type_id'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -37,6 +39,10 @@ class User extends BaseModel implements AuthenticatableContract
         parent::selfUpdate($params);
         $this->password = Hash::make(byString($params, 'password'));
         return $this;
+    }
+
+    public function user_types() {
+        return $this->belongsTo('App\Models\UserType', 'user_type_id');
     }
 
 }

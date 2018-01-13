@@ -9,7 +9,9 @@
                         <input-component v-model="model.name" name="name" rules="required" placeholder="User Name"></input-component>
                         <input-component v-model="model.email" name="email" rules="required|email" placeholder="Email"></input-component>
                         <input-component v-model="model.password" name="password" rules="required" placeholder="Password" type="password"></input-component>
+                        <select-component v-model="model.user_type_id" attr="code" :options="userTypes" name="userTypes" rules="required" placeholder="User Type"></select-component>                                    
                         
+
                         <div class="form-group">
                             <div class="col-md-12 text-right">
                                 <button class="btn btn-primary" @click="save()">Submit</button>
@@ -65,6 +67,7 @@
                 modelName: 'User',
                 apiUrl: 'api/users',
                 params: {
+                  relations: ['user_types']
                 },
                 //no need to mutate the following
                 models: [],
@@ -82,12 +85,19 @@
                       filterable: true,
                     },
                     {
+                      label: 'Type',
+                      field: 'user_types_code',
+                      filterable: true,
+                    },
+                    {
                       label: 'Actions'
                     },
                 ]
             };
         },
-        created() {},
+        created() {
+          this.fetchUserTypes();
+        },
         methods: {
         },
     }

@@ -538,6 +538,7 @@ module.exports = function normalizeComponent (
             priceTypes: [],
             currencys: [],
             organizationTypes: [],
+            userTypes: [],
             config: {}
         };
     },
@@ -708,6 +709,18 @@ module.exports = function normalizeComponent (
             }).catch(function (_ref16) {
                 var response = _ref16.response;
                 return _this7.notify(response, 'error');
+            });
+        },
+        fetchUserTypes: function fetchUserTypes() {
+            var _this8 = this;
+
+            axios.get('api/user-types').then(function (_ref17) {
+                var data = _ref17.data;
+
+                _this8.userTypes = data;
+            }).catch(function (_ref18) {
+                var response = _ref18.response;
+                return _this8.notify(response, 'error');
             });
         }
     }
@@ -49041,35 +49054,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_baseMixin_js__["a" /* default */]],
-    data: function data() {
-        return {
-            modelName: 'User',
-            apiUrl: 'api/users',
-            params: {},
-            //no need to mutate the following
-            models: [],
-            model: {},
-            isEditing: false,
-            columns: [{
-                label: 'Name',
-                field: 'name',
-                filterable: true
-            }, {
-                label: 'Email',
-                field: 'email',
-                filterable: true
-            }, {
-                label: 'Actions'
-            }]
-        };
-    },
-    created: function created() {},
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_baseMixin_js__["a" /* default */]],
+  data: function data() {
+    return {
+      modelName: 'User',
+      apiUrl: 'api/users',
+      params: {
+        relations: ['user_types']
+      },
+      //no need to mutate the following
+      models: [],
+      model: {},
+      isEditing: false,
+      columns: [{
+        label: 'Name',
+        field: 'name',
+        filterable: true
+      }, {
+        label: 'Email',
+        field: 'email',
+        filterable: true
+      }, {
+        label: 'Type',
+        field: 'user_types_code',
+        filterable: true
+      }, {
+        label: 'Actions'
+      }]
+    };
+  },
+  created: function created() {
+    this.fetchUserTypes();
+  },
 
-    methods: {}
+  methods: {}
 });
 
 /***/ }),
@@ -49138,6 +49161,23 @@ var render = function() {
                         _vm.$set(_vm.model, "password", $$v)
                       },
                       expression: "model.password"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("select-component", {
+                    attrs: {
+                      attr: "code",
+                      options: _vm.userTypes,
+                      name: "userTypes",
+                      rules: "required",
+                      placeholder: "User Type"
+                    },
+                    model: {
+                      value: _vm.model.user_type_id,
+                      callback: function($$v) {
+                        _vm.$set(_vm.model, "user_type_id", $$v)
+                      },
+                      expression: "model.user_type_id"
                     }
                   }),
                   _vm._v(" "),
