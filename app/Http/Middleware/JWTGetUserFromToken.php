@@ -24,27 +24,28 @@ class JWTGetUserFromToken extends GetUserFromToken
 
         try {
             $user = $this->auth->authenticate($token);
+            if (! $user) {
+                error('Missing User', 'redirect');
+            }
+            
+            if(!$user->user_types || $user->user_types->code != 'ADMIN') {
+                error('Permission Denied', 'redirect');
+            }
+
+            // 如果发现user已经被blacklist了，那就invalidate这个token
+            if ($user->deleted) {
+                $this->auth->parseToken()->invalidate();
+                error('Forbidden Login', 'redirect');
+            }
+
+            // $this->events->fire('tymon.jwt.valid', $user);
+
+            
         } catch (TokenExpiredException $e) {
             error('Obsolete Token', 'redirect');
         } catch (JWTException $e) {
             error('Invalidate Token', 'redirect');
         }
-
-        if (! $user) {
-            error('Missing User', 'redirect');
-        }
-        
-        if(!$user->user_types || $user->user_types->code != 'ADMIN') {
-            error('Permission Denied', 'redirect');
-        }
-
-        // 如果发现user已经被blacklist了，那就invalidate这个token
-        if ($user->deleted) {
-            $this->auth->parseToken()->invalidate();
-            error('Forbidden Login', 'redirect');
-        }
-
-        // $this->events->fire('tymon.jwt.valid', $user);
 
         return $next($request);
     }
